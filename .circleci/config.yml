@@ -3,10 +3,14 @@ version: 2
 jobs:
   release:
     docker:
-      - image: circleci/golang:1.10
+      - image: circleci/golang:1.11
     steps:
       - checkout
-      - run: curl -sL https://git.io/goreleaser | bash
+      - run:
+          name: gorelease
+          command: |
+            env GO111MODULE=on go mod verify
+            env GO111MODULE=on CGO_ENABLED=0 curl -sL https://git.io/goreleaser | bash
 workflows:
   version: 2
   release:
